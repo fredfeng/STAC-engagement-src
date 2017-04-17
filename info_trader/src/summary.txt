@@ -1,0 +1,4 @@
+Summary for /Users/grieve/Research/STAC/engagement4/challenge_programs/info_trader/challenge_program/InfoTrader.jar
+Decompiled with CFR 0_121
+
+Classes with case insensitive name clashes seen, and your FS appears to be case insensitive - consider using --caseinsensitivefs true
