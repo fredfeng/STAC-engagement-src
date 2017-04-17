@@ -1,0 +1,4 @@
+Summary for /Users/grieve/Research/STAC/engagement4/challenge_programs/smartmail/challenge_program/SmartMail.jar
+Decompiled with CFR 0_121
+
+Classes with case insensitive name clashes seen, and your FS appears to be case insensitive - consider using --caseinsensitivefs true

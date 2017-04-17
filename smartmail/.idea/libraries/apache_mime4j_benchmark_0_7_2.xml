@@ -1,0 +1,28 @@
+<component name="libraryTable">
+  <library name="apache-mime4j-benchmark-0.7.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/apache-mime4j-benchmark-0.7.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/apache-mime4j-core-0.7.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/apache-mime4j-dom-0.7.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/apache-mime4j-examples-0.7.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/apache-mime4j-storage-0.7.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-collections-3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-lang-2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ftp4j-1.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-10.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-common-0.21.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-hdfs-0.21.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-hdfs-ant-0.21.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapred-0.21.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-all-9.2.17.v20160517.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/servlet-api-3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.5.11 2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.5.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-log4j12-1.5.11 2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-log4j12-1.5.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
