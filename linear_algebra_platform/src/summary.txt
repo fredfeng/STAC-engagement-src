@@ -1,0 +1,4 @@
+Summary for ../challenge_programs/linear_algebra_platform/challenge_program/linalgservice.jar
+Decompiled with CFR 0_121
+
+Classes with case insensitive name clashes seen, and your FS appears to be case insensitive - consider using --caseinsensitivefs true
