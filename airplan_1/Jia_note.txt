@@ -1,0 +1,2 @@
+The challenge program is a patched version. The original program contains a bug that prevents the server from functioning correctly.
+The patched program also prints out routemap ID whenever a new routemap is uploaded to the server

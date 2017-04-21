@@ -1,0 +1,1 @@
+I suggest removing most of the files under TECH/APPL when playing around with the challenge program, as they usually slow down the server's startup time drastically.

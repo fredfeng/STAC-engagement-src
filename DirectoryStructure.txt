@@ -1,0 +1,3 @@
+Each sub-directory under the root directory contains one challenge program.
+
+Each challenge program directory is structured as follows:
