@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="resource"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/apache-mime4j-benchmark-0.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/apache-mime4j-core-0.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/apache-mime4j-dom-0.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/apache-mime4j-examples-0.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/apache-mime4j-storage-0.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/ftp4j-1.7.jar"/>
+	<classpathentry kind="lib" path="lib/guava-10.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/hadoop-common-0.21.0.jar"/>
+	<classpathentry kind="lib" path="lib/hadoop-hdfs-0.21.0.jar"/>
+	<classpathentry kind="lib" path="lib/hadoop-hdfs-ant-0.21.0.jar"/>
+	<classpathentry kind="lib" path="lib/hadoop-mapred-0.21.0.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-all-9.2.17.v20160517.jar"/>
+	<classpathentry kind="lib" path="lib/servlet-api-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.5.11 2.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.5.11.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.5.11 2.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.5.11.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
