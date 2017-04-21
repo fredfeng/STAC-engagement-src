@@ -1,0 +1,28 @@
+/*
+ * Decompiled with CFR 0_121.
+ */
+package com.networkapex.airplan.coach;
+
+import com.networkapex.airplan.coach.EditAirportManager;
+import com.networkapex.airplan.save.AirDatabase;
+import com.networkapex.nethost.WebSessionService;
+
+public class EditAirportManagerBuilder {
+    private AirDatabase db;
+    private WebSessionService webSessionService;
+
+    public EditAirportManagerBuilder defineDb(AirDatabase db) {
+        this.db = db;
+        return this;
+    }
+
+    public EditAirportManagerBuilder assignWebSessionService(WebSessionService webSessionService) {
+        this.webSessionService = webSessionService;
+        return this;
+    }
+
+    public EditAirportManager generateEditAirportManager() {
+        return new EditAirportManager(this.db, this.webSessionService);
+    }
+}
+
