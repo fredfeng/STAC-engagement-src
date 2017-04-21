@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="myproject" default="jar">
+
+  <dirname property="this.dir" file="${ant.file}"/>
+  <property name="target.loc" location="${target}"/>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+
+    <javac srcdir="src" destdir="classes" debug="true">
+	  <classpath>
+		<pathelement location="lib/gson-2.4.jar"/>
+		<pathelement location="lib/nanohttpd-2.2.0.jar"/>
+	  </classpath>
+	</javac>
+  </target>
+
+  <target name="jar" depends="compile"
+        description="generate the distribution" >
+    <jar jarfile="apposcopy.jar" basedir="classes"/>
+  </target>
+
+  <target name="clean"
+		  description="clean up" >
+    <delete dir="classes"/>
+    <delete file="apposcopy.jar"/>
+  </target>
+
+  <target name="init">
+    <mkdir dir="classes"/>
+  </target>
+
+
+
+</project>
