@@ -14,6 +14,7 @@
     <javac srcdir="src" destdir="classes" debug="true">
 	  <classpath>
 		<pathelement location="lib/deps.jar"/>
+		<pathelement location="lib/model.jar"/>
 	  </classpath>
 	</javac>
   </target>

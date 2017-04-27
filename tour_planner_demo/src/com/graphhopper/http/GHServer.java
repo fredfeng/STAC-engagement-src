@@ -3,26 +3,14 @@
  */
 package com.graphhopper.http;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.binder.AnnotatedBindingBuilder;
-import com.google.inject.servlet.GuiceFilter;
-import com.graphhopper.http.DefaultModule;
-import com.graphhopper.http.GHErrorHandler;
-import com.graphhopper.http.GHServletModule;
-import com.graphhopper.http.InvalidRequestServlet;
-import com.graphhopper.util.CmdArgs;
 import java.util.EnumSet;
+
 import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
-import javax.servlet.Servlet;
-import org.eclipse.jetty.server.Connector;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
@@ -32,6 +20,16 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.google.inject.servlet.GuiceFilter;
+import com.graphhopper.util.CmdArgs;
+
+import mock.servlet.MockHttpServletRequest;
+import mock.servlet.MockHttpServletResponse;
 
 public class GHServer {
     private final CmdArgs args;
@@ -88,7 +86,10 @@ public class GHServer {
         this.server.setHandler(handlers);
         this.server.start();
         this.logger.info("Started server at HTTP " + host + ":" + httpPort);
-        TourServlet ts = new TourServlet();
+        HttpServletRequest request = new MockHttpServletRequest();
+        HttpServletResponse response = new MockHttpServletResponse();
+//        TourServlet ts = new TourServlet(null, null);
+        new TourServlet().doGet(request, response);
     }
 
     protected Module createModule() {
