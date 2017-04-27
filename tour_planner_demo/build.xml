@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="" default="jar">
+
+  <dirname property="this.dir" file="${ant.file}"/>
+  <property name="target.loc" location="${target}"/>
+
+  <target name="init">
+    <mkdir dir="classes"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+
+    <javac srcdir="src" destdir="classes" debug="true">
+	  <classpath>
+		<pathelement location="lib/deps.jar"/>
+	  </classpath>
+	</javac>
+  </target>
+
+  <target name="jar" depends="compile"
+        description="generate the distribution" >
+    <jar jarfile="tour_demo.jar" basedir="classes"/>
+  </target>
+
+  <target name="clean"
+		  description="clean up" >
+    <delete dir="classes"/>
+    <delete file="tour_demo.jar"/>
+  </target>
+
+
+</project>
