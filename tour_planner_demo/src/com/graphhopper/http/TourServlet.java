@@ -52,21 +52,7 @@ public class TourServlet extends GHBaseServlet {
 		String[] pointsAsStr = this.getParams(req, key);
 		ArrayList<GHPoint> points = new ArrayList<GHPoint>(pointsAsStr.length);
 		for (String str : pointsAsStr) {
-			GHPoint point;
-			String[] fromStrs = str.split(",");
-			if (fromStrs.length == 2) {
-				point = GHPoint.parse(str);
-				if (point == null)
-					continue;
-				points.add(point);
-				continue;
-			}
-			if (fromStrs.length != 1)
-				continue;
-			point = this.nameIndex.get(str);
-			if (point == null) {
-				throw new IllegalArgumentException("unknown place \"" + str + "\"");
-			}
+			GHPoint point = GHPoint.parse(str);
 			points.add(point);
 		}
 		return points;

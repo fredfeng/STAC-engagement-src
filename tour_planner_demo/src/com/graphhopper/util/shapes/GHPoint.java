@@ -52,22 +52,17 @@ public class GHPoint {
         return new Double[]{this.lon, this.lat};
     }
 
-    public static GHPoint parse(String str) {
-        String[] fromStrs;
-        if (str.startsWith("<") && str.endsWith(">")) {
-            str = str.substring(1, str.length());
-        }
-        if ((fromStrs = str.split(",")).length == 2) {
-            try {
-                double fromLat = Double.parseDouble(fromStrs[0]);
-                double fromLon = Double.parseDouble(fromStrs[1]);
-                return new GHPoint(fromLat, fromLon);
-            }
-            catch (Exception fromLat) {
-                // empty catch block
-            }
-        }
-        return null;
-    }
+	public static GHPoint parse(String str) {
+		String[] fromStrs;
+		if (str.startsWith("<") && str.endsWith(">")) {
+			str = str.substring(1, str.length());
+		}
+		if ((fromStrs = str.split(",")).length == 2) {
+			double fromLat = Double.parseDouble(fromStrs[0]);
+			double fromLon = Double.parseDouble(fromStrs[1]);
+			return new GHPoint(fromLat, fromLon);
+		}
+		return null;
+	}
 }
 
