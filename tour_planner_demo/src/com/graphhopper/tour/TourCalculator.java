@@ -79,35 +79,12 @@ public class TourCalculator<P extends GHPlace> {
 
     protected Graph<P> calcMinSpanningTree(P root, Set<GHPoint> reqPoints, ProgressReporter progressReporter) {
         Graph<P> result = new Graph<P>().add(root);
-        int complete = 0;
-        int total = reqPoints.size() - 1;
-        try {
-            progressReporter.reportProgress(complete, total);
-        }
-        catch (IOException iOException) {
-            // empty catch block
-        }
-        block4 : while (result.size() < reqPoints.size()) {
+        while (result.size() < reqPoints.size()) {
             for (Edge<P> e : this.sortedEdges) {
                 if (result.contains(e.to) && !result.contains(e.from)) {
                     e.reverse();
                 }
-                QueryResult fromQR = this.queryResults.get(e.from);
-                QueryResult toQR = this.queryResults.get(e.to);
-                DistanceCalcEarth distanceCalc = new DistanceCalcEarth();
-                fromQR.calcSnappedPoint(distanceCalc);
-                toQR.calcSnappedPoint(distanceCalc);
-                GHPoint3D fromSnappedPoint = fromQR.getSnappedPoint();
-                GHPoint3D toSnappedPoint = toQR.getSnappedPoint();
-                if (!result.contains(e.from) || result.contains(e.to) || !reqPoints.contains(e.to)) continue;
-                assert (reqPoints.contains(e.from));
-                if (result.contains(e) || !reqPoints.contains(e.to)) continue;
                 result.add(e);
-                try {
-                    progressReporter.reportProgress(++complete, total);
-                }
-                catch (IOException iOException) {}
-                continue block4;
             }
         }
         return result;
