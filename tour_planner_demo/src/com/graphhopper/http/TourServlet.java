@@ -46,8 +46,7 @@ public class TourServlet extends GHBaseServlet {
 		tourRsp = this.tourCalculator.calcTour(points);
 		List<String> map = this.tourSerializer.toList(tourRsp);
 		PrintWriter writer = res.getWriter();
-		writer.append("event: result\r\n");
-		writer.append("data: " + map.toString() + "\r\n\r\n");
+		writer.append(map.toString());
 	}
 
 	protected List<GHPoint> getPoints(HttpServletRequest req, String key) {
