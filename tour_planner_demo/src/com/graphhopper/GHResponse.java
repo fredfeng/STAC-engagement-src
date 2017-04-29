@@ -34,7 +34,7 @@ public class GHResponse {
 
     private void check(String method) {
         if (this.hasErrors()) {
-            throw new RuntimeException("You cannot call " + method + " if response contains errors. Check this with ghResponse.hasErrors(). " + "Errors are: " + this.getErrors());
+            throw new RuntimeException("error");
         }
     }
 
