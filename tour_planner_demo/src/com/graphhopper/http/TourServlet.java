@@ -37,13 +37,13 @@ public class TourServlet extends GHBaseServlet {
 	
 	public TourServlet() {
 		tourCalculator = new TourCalculator(null);
+		tourSerializer = new TourSerializer();
 	}
 
 	@Override
 	public void doGet(HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
 		List<GHPoint> points = this.getPoints(req, "point");
-		TourResponse tourRsp = new TourResponse();
-		tourRsp = this.tourCalculator.calcTour(points);
+		TourResponse tourRsp = this.tourCalculator.calcTour(points);
 		List<String> map = this.tourSerializer.toList(tourRsp);
 		PrintWriter writer = res.getWriter();
 		writer.append("event: result\r\n");
