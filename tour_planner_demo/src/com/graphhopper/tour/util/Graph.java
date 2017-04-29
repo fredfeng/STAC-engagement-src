@@ -65,6 +65,7 @@ public class Graph<V> {
 
     public List<V> depthFirstWalk(V root) {
         final ArrayList result = new ArrayList();
+        result.add(root);
         this.depthFirstWalk(root, new Visitor<V>(){
 
             @Override

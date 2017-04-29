@@ -67,7 +67,9 @@ public class TourCalculator<P extends GHPlace> {
 
     public TourResponse<P> calcTour(List<? extends GHPoint> points, ProgressReporter progressReporter) {
         TourResponse<P> rsp = new TourResponse<>();
-        P root = this.knownPoints.get(points.get(0));
+        GHPoint p = points.get(0);
+        this.knownPoints.put(p, (P)p);
+        P root = this.knownPoints.get(p);
         HashSet<GHPoint> reqPoints = new HashSet<GHPoint>();
         reqPoints.addAll(points);
         Graph<P> minSpanningTree = this.calcMinSpanningTree(root, reqPoints, progressReporter);

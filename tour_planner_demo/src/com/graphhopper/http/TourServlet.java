@@ -3,25 +3,23 @@
  */
 package com.graphhopper.http;
 
-import com.graphhopper.http.GHBaseServlet;
-import com.graphhopper.http.TourSerializer;
-import com.graphhopper.tour.Places;
-import com.graphhopper.tour.TourCalculator;
-import com.graphhopper.tour.TourResponse;
-import com.graphhopper.tour.util.ProgressReporter;
-import com.graphhopper.util.shapes.GHPlace;
-import com.graphhopper.util.shapes.GHPoint;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
+
+import com.graphhopper.tour.Matrix;
+import com.graphhopper.tour.Places;
+import com.graphhopper.tour.TourCalculator;
+import com.graphhopper.tour.TourResponse;
+import com.graphhopper.util.shapes.GHPlace;
+import com.graphhopper.util.shapes.GHPoint;
 
 public class TourServlet extends GHBaseServlet {
 	@Inject
@@ -35,6 +33,10 @@ public class TourServlet extends GHBaseServlet {
 	@Override
 	public void init() {
 		this.nameIndex = Places.nameIndex(this.places);
+	}
+	
+	public TourServlet() {
+		tourCalculator = new TourCalculator(null);
 	}
 
 	@Override

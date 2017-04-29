@@ -88,7 +88,6 @@ public class GHServer {
         this.logger.info("Started server at HTTP " + host + ":" + httpPort);
         HttpServletRequest request = new MockHttpServletRequest();
         HttpServletResponse response = new MockHttpServletResponse();
-//        TourServlet ts = new TourServlet(null, null);
         new TourServlet().doGet(request, response);
     }
 
