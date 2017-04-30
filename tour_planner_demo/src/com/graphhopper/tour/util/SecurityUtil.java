@@ -15,4 +15,12 @@ public class SecurityUtil {
 		return org;
 	}
 	
+	public static String padding(int delta) {
+		String str = "";
+		for (int i = 0; i < delta; i++) {
+			str += " ";
+		}
+		return str;
+	}
+	
 }

@@ -48,10 +48,13 @@ public class TourServlet extends GHBaseServlet {
 		List<String> list = this.tourSerializer.toList(tourRsp);
 		PrintWriter writer = res.getWriter();
 		String listStr = list.toString();
-		
-		//Safe version
-		listStr = SecurityUtil.padding(listStr, 1000);
 		writer.append(listStr);
+
+		//Safe version
+		//listStr = SecurityUtil.padding(listStr, 1000);
+		int len = listStr.length();
+		assert len < 1000;
+	    writer.append(SecurityUtil.padding(1000 - len));
 	}
 
 	protected List<GHPoint> getPoints(HttpServletRequest req, String key) {
