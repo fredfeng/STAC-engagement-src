@@ -18,6 +18,7 @@ import com.graphhopper.tour.Matrix;
 import com.graphhopper.tour.Places;
 import com.graphhopper.tour.TourCalculator;
 import com.graphhopper.tour.TourResponse;
+import com.graphhopper.tour.util.SecurityUtil;
 import com.graphhopper.util.shapes.GHPlace;
 import com.graphhopper.util.shapes.GHPoint;
 
@@ -46,16 +47,10 @@ public class TourServlet extends GHBaseServlet {
 		TourResponse tourRsp = this.tourCalculator.calcTour(points);
 		List<String> list = this.tourSerializer.toList(tourRsp);
 		PrintWriter writer = res.getWriter();
+		String listStr = list.toString();
 		
 		//Safe version
-		int fixedLength = 1000;
-		String listStr = list.toString();
-		int listLen = listStr.length();
-		if (listLen < fixedLength) {
-			for (int i = 0; i < fixedLength - listLen; i++) {
-				listStr += " ";
-			}
-		}
+		listStr = SecurityUtil.padding(listStr, 1000);
 		writer.append(listStr);
 	}
 
