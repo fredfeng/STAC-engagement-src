@@ -44,9 +44,19 @@ public class TourServlet extends GHBaseServlet {
 	public void doGet(HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
 		List<GHPoint> points = this.getPoints(req, "point");
 		TourResponse tourRsp = this.tourCalculator.calcTour(points);
-		List<String> map = this.tourSerializer.toList(tourRsp);
+		List<String> list = this.tourSerializer.toList(tourRsp);
 		PrintWriter writer = res.getWriter();
-		writer.append(map.toString());
+		
+		//Safe version
+		int fixedLength = 1000;
+		String listStr = list.toString();
+		int listLen = listStr.length();
+		if (listLen < fixedLength) {
+			for (int i = 0; i < fixedLength - listLen; i++) {
+				listStr += " ";
+			}
+		}
+		writer.append(listStr);
 	}
 
 	protected List<GHPoint> getPoints(HttpServletRequest req, String key) {
