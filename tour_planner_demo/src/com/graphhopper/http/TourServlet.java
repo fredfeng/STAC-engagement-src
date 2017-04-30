@@ -53,7 +53,6 @@ public class TourServlet extends GHBaseServlet {
 		//Safe version
 		//listStr = SecurityUtil.padding(listStr, 1000);
 		int len = listStr.length();
-		assert len < 1000;
 	    writer.append(SecurityUtil.padding(1000 - len));
 	}
 
