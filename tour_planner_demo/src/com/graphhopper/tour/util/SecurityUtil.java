@@ -6,8 +6,9 @@ public class SecurityUtil {
 	public static String padding(String org, int bound) {
 		int orgLen = org.length();
 		assert (orgLen < bound);
+		int delta = bound - orgLen;
 		if (orgLen < bound) {
-			for (int i = 0; i < bound - orgLen; i++) {
+			for (int i = 0; i < delta; i++) {
 				org += " ";
 			}
 		}
