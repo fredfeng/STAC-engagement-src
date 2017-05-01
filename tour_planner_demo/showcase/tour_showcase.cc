@@ -1,7 +1,10 @@
+#include "cmdparser.hpp"
 #include <algorithm>
 #include <cassert>
+#include <functional>
 #include <iomanip>
 #include <iostream>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -30,8 +33,56 @@ vector<string> places = {
     "Newton",      "Lawrence",  "Somerville",  "Framingham", "Haverhill",
     "Waltham",     "Malden",    "Brookline",   "Plymouth",   "Medford",
     "Taunton",     "Chicopee",  "Weymouth",    "Revere",     "Peabody"};
+
+class Tour {
+private:
+    string start;
+    vector<string> cities;
+
+public:
+    Tour(const string& start, const vector<string>& cities)
+        : start(start), cities(cities) {}
+
+    const string& getStart() const { return start; }
+    const vector<string>& getCities() const { return cities; }
+
+    unordered_set<string> getCitySet() const {
+        return unordered_set<string>(cities.begin(), cities.end());
+    }
+
+    bool operator==(const Tour& rhs) const {
+        return start == rhs.start && cities == rhs.cities;
+    }
+    bool operator!=(const Tour& rhs) const { return !(*this == rhs); }
+
+    size_t size() const { return cities.size(); }
+};
+
+struct TourComparator {
+    bool operator()(const Tour& lhs, const Tour& rhs) const {
+        return lhs.getCities() < rhs.getCities();
+    }
+};
+
+struct TourEqual {
+    bool operator()(const Tour& lhs, const Tour& rhs) const {
+        return lhs.getCities() == rhs.getCities();
+    }
+};
+
+struct TourHasher {
+    size_t operator()(const Tour& tour) const {
+        size_t seed = tour.size();
+        auto strHasher = hash<string>();
+        for (auto& city : tour.getCities()) {
+            seed ^= strHasher(city) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        }
+        return seed;
+    }
+};
+
 vector<string> combination;
-unordered_map<int, vector<vector<string>>> cntMap;
+unordered_map<int, vector<Tour>> cntMap;
 
 unordered_map<string, vector<string>> farthestMap = {
     {"Boston", {"Chicopee", "Springfield", "New Bedford"}},
@@ -87,33 +138,33 @@ unordered_map<string, vector<string>> nearestMap = {
     {"Revere", {"Malden", "Boston", "Medford"}},
     {"Peabody", {"Lynn", "Revere", "Malden"}}};
 
-bool isFeasible(const vector<string>& v) {
-    auto const& first = v[0];
-    auto const& second = v[1];
-    auto const& last = v.back();
+bool isFeasible(const Tour& tour) {
+    /*    auto const& first = v[0];
+        auto const& second = v[1];
+        auto const& last = v.back();
 
-    auto itr = farthestMap.find(first);
-    if (itr != farthestMap.end()) {
-        auto& list = itr->second;
-        if (v[1] == list[0] || v[1] == list[1] || v[1] == list[2])
-            return false;
-        if (v[2] == list[0] || v[2] == list[1])
-            return false;
-        if (v[3] == list[0])
-            return false;
-    }
+        auto itr = farthestMap.find(first);
+        if (itr != farthestMap.end()) {
+            auto& list = itr->second;
+            if (v[1] == list[0] || v[1] == list[1] || v[1] == list[2])
+                return false;
+            if (v[2] == list[0] || v[2] == list[1])
+                return false;
+            if (v[3] == list[0])
+                return false;
+        }
 
-    auto itr2 = nearestMap.find(first);
-    if (itr2 != nearestMap.end()) {
-        auto& list = itr->second;
-        if (v[4] == list[0] || v[4] == list[1] || v[4] == list[2])
-            return false;
-        if (v[3] == list[0] || v[3] == list[1])
-            return false;
-        if (v[2] == list[0])
-            return false;
-    }
-
+        auto itr2 = nearestMap.find(first);
+        if (itr2 != nearestMap.end()) {
+            auto& list = itr->second;
+            if (v[4] == list[0] || v[4] == list[1] || v[4] == list[2])
+                return false;
+            if (v[3] == list[0] || v[3] == list[1])
+                return false;
+            if (v[2] == list[0])
+                return false;
+        }
+    */
     return true;
 }
 
@@ -121,20 +172,23 @@ int computeItemLen(const string& s) {
     return placeLengthMap.at(s) + 23;
 }
 
-int computeTotalLen(const vector<string>& v) {
-    int fixedLen = 15 + 51 * v.size();
+int computeTotalLen(const Tour& tour) {
+    int fixedLen = 15 + 51 * tour.size();
     int itemsLen = 40;
-    for (auto const& place : v) {
+    for (auto const& place : tour.getCities()) {
         itemsLen += computeItemLen(place);
     }
-    itemsLen += computeItemLen(v[0]);
+    itemsLen += computeItemLen(tour.getStart());
     return fixedLen + itemsLen;
 }
 
 void do_calc(const vector<string>& v) {
-    int total_len = computeTotalLen(v);
-    if (isFeasible(v))
-        cntMap[total_len].push_back(v);
+    for (auto const& place : v) {
+        Tour tour(place, v);
+        int total_len = computeTotalLen(tour);
+        if (isFeasible(tour))
+            cntMap[total_len].push_back(tour);
+    }
 }
 
 void go(int offset, int k) {
@@ -149,43 +203,44 @@ void go(int offset, int k) {
     }
 }
 
-bool is_digits(const string& str) {
-    return all_of(str.begin(), str.end(), ::isdigit);
+void configure_parser(cli::Parser& parser) {
+    parser.set_optional<vector<string>>(
+        "c", "cities", vector<string>(),
+        "List of cities to check if it is included in the solution");
+    parser.set_optional<bool>("s", "silent", false,
+                              "Only print the number of possibilities");
+    parser.set_optional<int>("k", "numcities", 5,
+                             "Number of cities in the tour");
+    parser.set_required<int>("l", "resp-len", "Length of the response");
 }
 
-void printUsageAndExit(string progName) {
-    cout << "Usage: " << progName << " <response length> [-n]\n";
-    cout << "Specifiy -n if you only want to print out the number of "
-            "possiblities."
-         << endl;
-    exit(-1);
+void printCities(const std::vector<string>& cities) {
+    cout << "{ ";
+    string delim = "";
+    for (auto const& place : cities) {
+        cout << delim << std::setw(11) << place;
+        delim = ", ";
+    }
+    cout << " }\n";
+}
+
+void printTour(const Tour& tour) {
+    string startString = tour.getStart() + "->";
+    cout << setw(13) << startString;
+    printCities(tour.getCities());
 }
 
 int main(int argc, char** argv) {
-    if (argc < 2 || argc > 3)
-        printUsageAndExit(argv[0]);
-    string respLen = argv[1];
-    bool verbose = true;
-
-    if (is_digits(respLen)) {
-        if (argc == 3 && string(argv[2]) == "-n")
-            verbose = false;
-    } else {
-        if (respLen == "-n" && argc == 3 && is_digits(argv[2])) {
-            respLen = argv[2];
-            verbose = false;
-        } else
-            printUsageAndExit(argv[0]);
-    }
+    cli::Parser parser(argc, argv);
+    configure_parser(parser);
+    parser.run_and_exit_if_error();
 
     int n = 25;
-    int k = 5;
-
-    int len;
-    try {
-        len = stoi(respLen);
-    } catch (const exception& e) {
-        cout << "Length parsing failed: " << e.what() << endl;
+    int k = parser.get<int>("k");
+    int len = parser.get<int>("l");
+    bool verbose = !parser.get<bool>("s");
+    if (k <= 1 || k > 25) {
+        cout << "Illegal number of cities: " << k << endl;
         exit(-2);
     }
 
@@ -199,18 +254,39 @@ int main(int argc, char** argv) {
         exit(-3);
     }
 
-    if (verbose) {
-        for (auto const& places : itr->second) {
-            cout << "[ ";
-            string delim = "";
-            for (auto const& place : places) {
-                cout << delim << std::setw(11) << place;
-                delim = ", ";
-            }
-            cout << " ]\n";
+    unordered_set<Tour, TourHasher, TourEqual> tourSet;
+    int numSol = 0;
+    for (auto const& tour : itr->second) {
+        if (tourSet.insert(tour).second) {
+            if (verbose)
+                printCities(tour.getCities());
+            ++numSol;
         }
     }
-    cout << "\nTotal number of possibility = " << itr->second.size() << endl;
+    cout << "\nTotal number of possibility = " << numSol << endl;
+
+    auto cities = parser.get<vector<string>>("c");
+    if (!cities.empty()) {
+        if (cities.size() != k) {
+            cout << "ERROR: must specify " << k
+                 << " cities to perform the check\n";
+            exit(-4);
+        }
+        unordered_set<string> citySet(cities.begin(), cities.end());
+
+        bool found = false;
+        for (auto const& tour : itr->second) {
+            auto candidate = tour.getCitySet();
+            if (candidate == citySet) {
+                found = true;
+                cout << "FOUND TOUR:\n";
+                printTour(tour);
+                // break;
+            }
+        }
+        if (!found)
+            cout << "Given cities not found in solution\n";
+    }
 
     return 0;
 }
