@@ -4,6 +4,7 @@
 #include <functional>
 #include <iomanip>
 #include <iostream>
+#include <limits>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -169,12 +170,12 @@ bool isFeasible(const Tour& tour) {
 }
 
 int computeItemLen(const string& s) {
-    return placeLengthMap.at(s) + 23;
+    return placeLengthMap.at(s) + 25;
 }
 
 int computeTotalLen(const Tour& tour) {
     int fixedLen = 15 + 51 * tour.size();
-    int itemsLen = 40;
+    int itemsLen = 23 + tour.size();
     for (auto const& place : tour.getCities()) {
         itemsLen += computeItemLen(place);
     }
@@ -263,7 +264,22 @@ int main(int argc, char** argv) {
             ++numSol;
         }
     }
-    cout << "\nTotal number of possibility = " << numSol << endl;
+    if (verbose) {
+        int minLen = numeric_limits<int>::max();
+        int maxLen = 0;
+        for (auto const& mapping : cntMap) {
+            auto len = mapping.first;
+            maxLen = max(len, maxLen);
+            minLen = min(len, minLen);
+        }
+        cout << "\nMax possible response size for k=" << k << " is " << maxLen
+             << '\n';
+        cout << "Min possible response size for k=" << k << " is " << minLen
+             << endl;
+    }
+
+    cout << "\nTotal number of possibility for response size " << len << " = "
+         << numSol << endl;
 
     auto cities = parser.get<vector<string>>("c");
     if (!cities.empty()) {
