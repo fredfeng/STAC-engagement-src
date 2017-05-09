@@ -1,0 +1,42 @@
+{
+  "quandary-sources": [
+    {
+      "procedure": "codetoanalyze.java.quandary.ExternalSpecs.privateData*",
+      "kind": "PrivateData"
+    },
+    {
+      "procedure": "java.io.File.get*",
+      "kind": "PrivateData"
+    },
+    {
+      "procedure": "java.lang.Math.max*",
+      "kind": "PrivateData"
+    },
+    {
+      "procedure": "com.graphhopper.http.TourServlet.getPoints",
+      "kind": "PrivateData"
+    }
+  ],
+  "quandary-sinks": [
+    {
+      "procedure": "codetoanalyze.java.quandary.ExternalSpecs.loggingSink1",
+      "kind": "Logging",
+      "index": "1"
+    },
+    {
+      "procedure": "java.io.PrintWriter.append",
+      "kind": "Logging",
+      "index": "0"
+    },
+    {
+      "procedure": "codetoanalyze.java.quandary.ExternalSpecs.loggingSink2",
+      "kind": "Logging"
+    },
+    {
+      "procedure": "com.example.linalg.internal.multiply.ParallelMatrixMultiply.ParallelMatrixMultiply",
+      "kind": "Logging",
+      "index": "3"
+    }
+
+  ]
+}
